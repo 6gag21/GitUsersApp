@@ -14,6 +14,7 @@ public class UserItemViewHolder extends RecyclerView.ViewHolder {
     private ImageView mImage;
 
 
+
     public TextView getmUsername() {
         return mUsername;
     }

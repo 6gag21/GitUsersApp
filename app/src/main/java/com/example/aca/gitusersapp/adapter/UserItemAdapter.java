@@ -15,7 +15,7 @@ import java.util.List;
 public class UserItemAdapter extends RecyclerView.Adapter<UserItemViewHolder> {
 
 
-    private String at = "@";
+    private final static String AT = "@";
     private List<Result.UsersList> mData;
     private OnItemClickListener mOnItemClickListener;
 
@@ -33,18 +33,19 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final UserItemViewHolder userItemViewHolder, int i) {
+    public void onBindViewHolder(@NonNull  UserItemViewHolder userItemViewHolder, int i) {
         Result.UsersList user = mData.get(i);
+        final int id = user.id;
 
-        userItemViewHolder.getmUsername().setText(at + user.username);
-        Glide.with(userItemViewHolder.getmImage().getContext())
+        userItemViewHolder.getmUsername().setText(AT + user.username);
+        Glide.with(userItemViewHolder.getmImage())
                 .load(user.avatar)
                 .into(userItemViewHolder.getmImage());
 
         userItemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickListener.onItemClicked(userItemViewHolder.getAdapterPosition());
+                mOnItemClickListener.onItemClicked(id);
             }
         });
     }
@@ -55,6 +56,6 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemViewHolder> {
     }
 
    public interface OnItemClickListener {
-        void onItemClicked(int adapterPosition);
+        void onItemClicked(int id);
    }
 }

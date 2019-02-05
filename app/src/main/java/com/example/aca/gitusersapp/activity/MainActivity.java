@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements UserItemAdapter.O
 
     UserItemAdapter userItemAdapter;
     ArrayList<Result.UsersList> mUsers;
+    CustomScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +42,9 @@ public class MainActivity extends AppCompatActivity implements UserItemAdapter.O
     private void initRecyclerView(){
         userItemAdapter = new UserItemAdapter(mUsers,this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        CustomScrollListener scrollListener = new CustomScrollListener(layoutManager) {
+         scrollListener = new CustomScrollListener(layoutManager) {
             @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+            public void onLoadMore(int totalItemsCount) {
                 loadUsers(totalItemsCount);
             }
         };
@@ -64,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements UserItemAdapter.O
                     if (users != null) {
                         mUsers.addAll(users);
                         userItemAdapter.notifyDataSetChanged();
+                        scrollListener.setLoading(false);
+                    }else{
+                        scrollListener.setLastPage(true);
                     }
                 }
 
@@ -78,13 +82,13 @@ public class MainActivity extends AppCompatActivity implements UserItemAdapter.O
     }
 
     @Override
-    public void onItemClicked(int adapterPosition) {
-        openFragmentInContainer(adapterPosition);
+    public void onItemClicked(int id) {
+        openFragmentInContainer(id);
     }
 
-    private void openFragmentInContainer(int adapterPosition){
+    private void openFragmentInContainer(int id){
         UserFragment userFragment = new UserFragment();
-        userFragment.userId = adapterPosition + 1;
+        userFragment.setUserId(id);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container_main, userFragment);

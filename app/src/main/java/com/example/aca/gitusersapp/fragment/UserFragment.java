@@ -21,7 +21,11 @@ import retrofit2.Response;
 public class UserFragment extends Fragment {
 
 
-    public int userId;
+    private int userId;
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     private ImageView mImage;
     private TextView mUsername;
