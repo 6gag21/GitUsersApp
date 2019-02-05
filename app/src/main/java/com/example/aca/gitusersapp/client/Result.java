@@ -27,6 +27,17 @@ public class Result {
         @SerializedName("login")
         @Expose
         public String username;
+        @SerializedName("followers")
+        @Expose
+        public int followersCount;
+        @SerializedName("html_url")
+        @Expose
+        public String URL;
+    }
 
+    public class UserRepos{
+        @SerializedName("name")
+        @Expose
+        public String reposName;
     }
 }

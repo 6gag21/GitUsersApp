@@ -15,4 +15,7 @@ public interface GitHubService {
 
     @GET("user/{id}")
     Call<Result.User> getUserById(@Path("id") int id);
+
+    @GET("user/{id}/repos")
+    Call<List<Result.UserRepos>> getUserRepos(@Path("id") int id);
 }

@@ -28,8 +28,8 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemViewHolder> {
     @Override
     public UserItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_user, viewGroup, false);
-        UserItemViewHolder userItemViewHolder = new UserItemViewHolder(v);
-        return userItemViewHolder;
+
+        return new UserItemViewHolder(v);
     }
 
     @Override
