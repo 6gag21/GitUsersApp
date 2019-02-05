@@ -6,19 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.example.aca.gitusersapp.R;
 import com.example.aca.gitusersapp.client.Result;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class UserItemAdapter extends RecyclerView.Adapter<UserItemViewHolder> {
 
-    private List<Result.User> mData;
 
-    public UserItemAdapter(){
-        mData = new ArrayList<>();
+    private String at = "@";
+    private List<Result.UsersList> mData;
+    private OnItemClickListener mOnItemClickListener;
+
+    public UserItemAdapter(List<Result.UsersList> users, OnItemClickListener onItemClickListener) {
+        mData = users;
+        mOnItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -30,13 +33,20 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserItemViewHolder userItemViewHolder, int i) {
-        Result.User user = mData.get(i);
+    public void onBindViewHolder(@NonNull final UserItemViewHolder userItemViewHolder, int i) {
+        Result.UsersList user = mData.get(i);
 
-        userItemViewHolder.getmName().setText(user.name);
-        userItemViewHolder.getmSurname().setText(user.surname);
-        userItemViewHolder.getmUsername().setText(user.username);
-        userItemViewHolder.getmImage().setImageURI(user.imageURI);
+        userItemViewHolder.getmUsername().setText(at + user.username);
+        Glide.with(userItemViewHolder.getmImage().getContext())
+                .load(user.avatar)
+                .into(userItemViewHolder.getmImage());
+
+        userItemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClicked(userItemViewHolder.getAdapterPosition());
+            }
+        });
     }
 
     @Override
@@ -44,10 +54,7 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemViewHolder> {
         return mData.size();
     }
 
-    public void addAllUsers(Collection<Result.User> users){
-        mData.addAll(users);
-        notifyDataSetChanged();
-    }
-
-
+   public interface OnItemClickListener {
+        void onItemClicked(int adapterPosition);
+   }
 }
