@@ -18,4 +18,7 @@ public interface GitHubService {
 
     @GET("user/{id}/repos")
     Call<List<Result.UserRepos>> getUserRepos(@Path("id") int id);
+
+    @GET("search/users")
+    Call<Result.FoundUsers> searchUsers(@Query("q") String name);
 }

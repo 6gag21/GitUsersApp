@@ -4,6 +4,8 @@ package com.example.aca.gitusersapp.client;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Result {
 
     public class UsersList {
@@ -39,5 +41,11 @@ public class Result {
         @SerializedName("name")
         @Expose
         public String reposName;
+    }
+
+    public class FoundUsers{
+        @SerializedName("items")
+        @Expose
+        public List<UsersList> usersList;
     }
 }

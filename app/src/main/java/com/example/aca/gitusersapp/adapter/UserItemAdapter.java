@@ -36,7 +36,6 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemViewHolder> {
     public void onBindViewHolder(@NonNull  UserItemViewHolder userItemViewHolder, int i) {
         Result.UsersList user = mData.get(i);
         final int id = user.id;
-
         userItemViewHolder.getmUsername().setText(AT + user.username);
         Glide.with(userItemViewHolder.getmImage())
                 .load(user.avatar)
@@ -58,4 +57,6 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemViewHolder> {
    public interface OnItemClickListener {
         void onItemClicked(int id);
    }
+
+
 }
