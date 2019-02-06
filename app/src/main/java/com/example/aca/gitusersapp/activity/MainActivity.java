@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements UserItemAdapter.O
         fragmentTransaction.add(R.id.container_main, userFragment);
         fragmentTransaction.addToBackStack(userFragment.getClass().getSimpleName());
         fragmentTransaction.commit();
+        fragmentTransaction.show(userFragment);
     }
 
     @Override
