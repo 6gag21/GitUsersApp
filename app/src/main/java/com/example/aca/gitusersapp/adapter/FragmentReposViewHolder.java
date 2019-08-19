@@ -11,7 +11,7 @@ public class FragmentReposViewHolder extends RecyclerView.ViewHolder {
 
     private TextView mReposName;
 
-    public TextView getmReposName() {
+    public TextView getReposName() {
         return mReposName;
     }
 

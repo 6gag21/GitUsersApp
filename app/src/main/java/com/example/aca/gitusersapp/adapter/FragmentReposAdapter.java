@@ -29,7 +29,7 @@ public class FragmentReposAdapter extends RecyclerView.Adapter<FragmentReposView
     @Override
     public void onBindViewHolder(@NonNull FragmentReposViewHolder fragmentReposViewHolder, int i) {
         Result.UserRepos repos = mData.get(i);
-        fragmentReposViewHolder.getmReposName().setText(repos.reposName);
+        fragmentReposViewHolder.getReposName().setText(repos.reposName);
     }
 
     @Override

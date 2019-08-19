@@ -30,27 +30,25 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements UserItemAdapter.OnItemClickListener, SearchView.OnQueryTextListener {
 
-    UserItemAdapter userItemAdapter;
-    ArrayList<Result.UsersList> mUsers;
-    CustomScrollListener scrollListener;
+   private UserItemAdapter userItemAdapter;
+   private CustomScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mUsers = new ArrayList<>();
         loadUsers(0);
         initRecyclerView();
     }
 
 
     private void initRecyclerView(){
-        userItemAdapter = new UserItemAdapter(mUsers,this);
+        userItemAdapter = new UserItemAdapter(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         scrollListener = new CustomScrollListener(layoutManager) {
             @Override
-            public void onLoadMore(int totalItemsCount) {
-                loadUsers(totalItemsCount);
+            public void onLoadMore() {
+                loadUsers(userItemAdapter.getLastUserId());
             }
         };
         RecyclerView mRecyclerView = findViewById(R.id.rv_main);
@@ -62,15 +60,13 @@ public class MainActivity extends AppCompatActivity implements UserItemAdapter.O
 
     private void loadUsers(int page) {
         if (NetworkUtils.isNetworkAvailable(this)) {
-            Call<List<Result.UsersList>> call = ApiManager.getApiClient().getUsers(page, 10);
+            Call<List<Result.UsersList>> call = ApiManager.getApiClient().getUsers(page,  10);
             call.enqueue(new Callback<List<Result.UsersList>>() {
                 @Override
                 public void onResponse(Call<List<Result.UsersList>> call, Response<List<Result.UsersList>> response) {
                     List<Result.UsersList> users = response.body();
-                    Log.v("TAG", "Response");
                     if (users != null) {
-                        mUsers.addAll(users);
-                        userItemAdapter.notifyDataSetChanged();
+                        userItemAdapter.addItems(users);
                         scrollListener.setLoading(false);
                     }else{
                         scrollListener.setLastPage(true);
@@ -97,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements UserItemAdapter.O
                 public void onResponse(Call<Result.FoundUsers> call, Response<Result.FoundUsers> response) {
                     Result.FoundUsers users = response.body();
                     if (users != null) {
-                        mUsers.clear();
-                        mUsers.addAll(users.usersList);
+                        userItemAdapter.clearData();
+                        userItemAdapter.addItems(users.usersList);
                     }
                 }
 
@@ -125,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements UserItemAdapter.O
         fragmentTransaction.add(R.id.container_main, userFragment);
         fragmentTransaction.addToBackStack(userFragment.getClass().getSimpleName());
         fragmentTransaction.commit();
-        fragmentTransaction.show(userFragment);
     }
 
     @Override

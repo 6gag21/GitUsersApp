@@ -8,22 +8,22 @@ import android.widget.TextView;
 
 import com.example.aca.gitusersapp.R;
 
-public class UserItemViewHolder extends RecyclerView.ViewHolder {
+ class UserItemViewHolder extends RecyclerView.ViewHolder {
 
     private TextView mUsername;
     private ImageView mImage;
 
 
 
-    public TextView getmUsername() {
+     TextView getUsername() {
         return mUsername;
     }
 
-    public ImageView getmImage() {
+     ImageView getImage() {
         return mImage;
     }
 
-    public UserItemViewHolder(@NonNull View itemView) {
+     UserItemViewHolder(@NonNull View itemView) {
         super(itemView);
 
         mUsername = itemView.findViewById(R.id.username);

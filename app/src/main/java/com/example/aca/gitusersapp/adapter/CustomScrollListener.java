@@ -20,7 +20,7 @@ public abstract class CustomScrollListener extends RecyclerView.OnScrollListener
 
     private LinearLayoutManager mLayoutManager;
 
-    public CustomScrollListener(LinearLayoutManager layoutManager) {
+    protected CustomScrollListener(LinearLayoutManager layoutManager) {
         this.mLayoutManager = layoutManager;
     }
 
@@ -39,12 +39,12 @@ public abstract class CustomScrollListener extends RecyclerView.OnScrollListener
 
         if (!isLoading && !isLastPage) {
             if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount) {
-                onLoadMore(totalItemCount);
+                onLoadMore();
                 isLoading = true;
             }
         }
     }
 
-    public abstract void onLoadMore(int totalItemsCount);
+    public abstract void onLoadMore();
 
 }

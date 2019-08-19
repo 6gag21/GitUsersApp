@@ -10,17 +10,18 @@ import com.bumptech.glide.Glide;
 import com.example.aca.gitusersapp.R;
 import com.example.aca.gitusersapp.client.Result;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserItemAdapter extends RecyclerView.Adapter<UserItemViewHolder> {
 
-
+    private int mId;
     private final static String AT = "@";
     private List<Result.UsersList> mData;
     private OnItemClickListener mOnItemClickListener;
 
-    public UserItemAdapter(List<Result.UsersList> users, OnItemClickListener onItemClickListener) {
-        mData = users;
+    public UserItemAdapter(OnItemClickListener onItemClickListener) {
+        mData = new ArrayList<>();
         mOnItemClickListener = onItemClickListener;
     }
 
@@ -35,11 +36,12 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull  UserItemViewHolder userItemViewHolder, int i) {
         Result.UsersList user = mData.get(i);
+        mId = user.id;
         final int id = user.id;
-        userItemViewHolder.getmUsername().setText(AT + user.username);
-        Glide.with(userItemViewHolder.getmImage())
+        userItemViewHolder.getUsername().setText(AT + user.username);
+        Glide.with(userItemViewHolder.getImage())
                 .load(user.avatar)
-                .into(userItemViewHolder.getmImage());
+                .into(userItemViewHolder.getImage());
 
         userItemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +58,19 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemViewHolder> {
 
    public interface OnItemClickListener {
         void onItemClicked(int id);
+   }
+
+   public void clearData(){
+        mData.clear();
+   }
+
+   public void addItems(List<Result.UsersList> data ){
+        mData.addAll(data);
+        notifyDataSetChanged();
+   }
+
+   public int getLastUserId(){
+        return mId;
    }
 
 
